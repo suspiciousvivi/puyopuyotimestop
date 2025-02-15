@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfps8rk8u34vm"]
+
+[ext_resource type="Texture2D" uid="uid://cqgdtgcek2q0b" path="res://aqua.png" id="1_x6fcm"]
+
+[sub_resource type="GDScript" id="GDScript_qjlw1"]
+script/source = "extends CharacterBody2D
+var Placement=[0,0];
+var index=0
+var rows = Global.rows
+var columns =Global.columns
+var row =0;
+var physics= true
+var speed = 0
+var frames= 1;
+var checkrow=0;
+func _ready():
+	checkrow = getRow()
+	
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+	
+
+func setPlace():
+	while checkrow< len(rows)-1:
+		if not Global.checkPlacement(checkrow+1,getColumn()):
+			checkrow+=1
+		else:
+			break;
+	Global.addPlacement(checkrow,getColumn())
+	setRow(checkrow)
+	
+func freefall():
+	speed = floor(1+(.1875 *frames))
+	for x in range(0,speed):
+		if position.y != rows[getRow()]:
+			if frames <85:
+				frames+=1
+			position.y +=1
+		else:
+			break;
+	
+	
+func setCords(x:int, y:int):
+	Placement=[x,y]
+	position.x = columns[getColumn()]
+	position.y = rows[getRow()]
+
+func setColumn(x:int):
+	Placement[1]=x
+	
+func setRow(y:int):
+	Placement[0]=y
+	
+func getColumn():
+	return Placement[1]
+	
+func getRow():
+	return Placement[0]
+	
+func getCords():
+	return Placement
+
+
+
+
+	
+
+func _on_timer_timeout():
+	pass
+	
+"
+
+[node name="Puyo" type="CharacterBody2D"]
+script = SubResource("GDScript_qjlw1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x6fcm")
+
+[node name="Timer" type="Timer" parent="." groups=["puyo"]]
+wait_time = 0.001
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
