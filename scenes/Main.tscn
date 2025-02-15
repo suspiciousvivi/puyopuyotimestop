@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdq4m8l3dbbu3"]
+
+[sub_resource type="GDScript" id="GDScript_k25ms"]
+script/source = "extends Node2D
+
+var index=0
+var rows = Global.rows
+var columns =Global.columns
+var p =[]
+@onready
+var puyo = preload(\"res://Puyo.tscn\").instantiate()
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	for x in range(0,5):
+		for y in range(0,2):
+				p.append(add_puyo(y,x))
+	
+	p.sort_custom(sortRow)
+	for x in p:
+		x.setPlace()
+	
+func sortRow(a, b):
+	return a.getRow()>b.getRow()
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	for x in p:
+		x.freefall()
+
+func add_puyo(x: int, y:int):
+	puyo = preload(\"res://Puyo.tscn\").instantiate()
+	puyo.setCords(x,y)
+	add_child(puyo)
+	return puyo;
+
+
+	
+	
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_k25ms")
+
+[node name="Move_down" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
