@@ -11,8 +11,24 @@ config_version=5
 [application]
 
 config/name="Puyo Puyo"
-config/features=PackedStringArray("4.3", "Mobile")
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://scenes/Global.gd"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=1500
+window/stretch/mode="canvas_items"
+window/stretch/scale=3.0
+
+[dotnet]
+
+project/assembly_name="Puyo Puyo"
 
 [rendering]
 

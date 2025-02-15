@@ -4,11 +4,11 @@
 script/source = "extends Node2D
 
 var index=0
-var rows = Global.rows
+var rows =Global.rows
 var columns =Global.columns
 var p =[]
 @onready
-var puyo = preload(\"res://Puyo.tscn\").instantiate()
+var puyo = preload(\"res://scenes/Puyo.tscn\").instantiate()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for x in range(0,5):
@@ -27,7 +27,7 @@ func _process(delta):
 		x.freefall()
 
 func add_puyo(x: int, y:int):
-	puyo = preload(\"res://Puyo.tscn\").instantiate()
+	puyo = preload(\"res://scenes/Puyo.tscn\").instantiate()
 	puyo.setCords(x,y)
 	add_child(puyo)
 	return puyo;
